@@ -25,11 +25,8 @@ fi
 if adb get-state 1>/dev/null 2>&1; then
     echo "Enviando senhas para o dispositivo..."
     
-    # Contador de senhas processadas
-    password_count=0
-    
     # Lê o arquivo linha por linha
-    while IFS= read -r password; do
+    while IFS= read -r password || [ -n "$password" ]; do
         # Remove espaços em branco no início e no final da senha
         password=$(echo "$password" | xargs)
         
@@ -61,15 +58,12 @@ if adb get-state 1>/dev/null 2>&1; then
             
             echo "Senha '$password' enviada com sucesso."
             
-            # Incrementa o contador de senhas processadas
-            ((password_count++))
-            
             # Adiciona um pequeno atraso antes de passar para a próxima senha
             sleep 1
         fi
     done < "$file_path"
     
-    echo "Todas as senhas foram enviadas. Total de senhas processadas: $password_count."
+    echo "Todas as senhas foram enviadas."
 else
     echo "Nenhum dispositivo encontrado. Conecte um dispositivo e tente novamente."
 fi
