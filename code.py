@@ -1,15 +1,25 @@
 #!/bin/bash
 
-# Solicita ao usuário para inserir a lista de códigos de tecla, separados por espaços
-read -p "Digite os códigos de keyevent separados por espaços: " -a keyevent_list
+# Solicita ao usuário para inserir a senha alfanumérica
+read -p "Digite a senha alfanumérica: " password
 
 # Verifica se há um dispositivo conectado
 if adb get-state 1>/dev/null 2>&1; then
-    echo "Enviando keyevents para o dispositivo..."
-    # Itera sobre a lista e executa o comando adb para cada código
-    for key in "${keyevent_list[@]}"; do
-        echo "Enviando keyevent $key..."
-        adb shell input keyevent "$key"
+    echo "Enviando caracteres da senha para o dispositivo..."
+    
+    # Itera sobre cada caractere da senha
+    for (( i=0; i<${#password}; i++ )); do
+        # Extrai o caractere atual
+        char="${password:$i:1}"
+        
+        # Envia o comando para digitar o caractere
+        adb shell input text "$char"
+        echo "Enviado: $char"
+        
+        # Envia o comando keyevent para "Enter"
+        adb shell input keyevent 66
+        echo "Enviado keyevent 66 (Enter)"
+        
         sleep 1  # Adiciona um pequeno atraso entre os comandos, se necessário
     done
 else
