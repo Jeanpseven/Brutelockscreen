@@ -30,7 +30,7 @@ if adb get-state 1>/dev/null 2>&1; then
             
             # Converte o caractere para o comando keyevent correspondente
             keyevent_cmd=$(convert_char_to_keyevent "$char")
-            if [ "$keyevent_cmd" != "keyevent for special character $char not defined" ]; then
+            if [[ "$keyevent_cmd" =~ ^keyevent ]]; then
                 echo "adb shell input $keyevent_cmd"
                 adb shell input $keyevent_cmd
             else
