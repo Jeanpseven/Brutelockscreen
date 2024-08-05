@@ -11,6 +11,15 @@ convert_char_to_keyevent() {
     esac
 }
 
+# Solicita ao usuário para inserir o caminho do arquivo com as senhas
+read -p "Digite o caminho do arquivo com as senhas: " file_path
+
+# Verifica se o arquivo existe
+if [ ! -f "$file_path" ]; then
+    echo "Arquivo não encontrado: $file_path"
+    exit 1
+fi
+
 contador=0
 while IFS= read -r line || [ -n "$line" ]; do
     password="$line"
