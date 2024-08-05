@@ -50,9 +50,6 @@ if adb get-state 1>/dev/null 2>&1; then
                 
                 # Adiciona um pequeno atraso entre os caracteres
                 sleep 0.1
-                
-                # Adiciona o caractere ao arquivo de input
-                echo "$char" >> input.txt
             done
             
             # Adiciona o comando "Enter" após a senha
