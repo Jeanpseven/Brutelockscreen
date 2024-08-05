@@ -13,16 +13,11 @@ fi
 tamanho_lista=$(wc -l < "$file_path")
 echo "Tamanho da lista: $tamanho_lista"
 
-# Lê as senhas da lista
-senhas=()
-while IFS= read -r line; do
-    senhas+=("$line")
-done < "$file_path"
-
 # Processa as senhas
-for (( i=0; i<tamanho_lista; i++ )); do
-    senha="${senhas[$i]}"
-    echo "Tentativa $((i+1)) de $tamanho_lista: $senha"
+contador=0
+while IFS= read -r senha; do
+    ((contador++))
+    echo "Tentativa $contador de $tamanho_lista: $senha"
     
     # Envia a senha para o dispositivo
     for (( j=0; j<${#senha}; j++ )); do
@@ -38,6 +33,6 @@ for (( i=0; i<tamanho_lista; i++ )); do
     echo "Senha '$senha' enviada com sucesso."
     
     sleep 0.05 # reduziu o intervalo de sleep entre senhas para 50ms
-done
+done < "$file_path"
 
 echo "Todas as senhas foram enviadas."
