@@ -20,13 +20,8 @@ while IFS= read -r senha; do
     echo "Tentativa $contador de $tamanho_lista: $senha"
     
     # Envia a senha para o dispositivo
-    for (( j=0; j<${#senha}; j++ )); do
-        char="${senha:$j:1}"
-        echo "adb shell input text '$char'"
-        adb shell input text "$char"
-        sleep 0.01 # reduziu o intervalo de sleep para 10ms
-    done
-    
+    echo "adb shell input text '$senha'"
+    adb shell input text "$senha"
     echo "adb shell input keyevent 66 # Enter"
     adb shell input keyevent 66
     
